@@ -7,15 +7,28 @@ const EmpListing = () => {
     const navigate = useNavigate()
     const LoadDetail = (id) => {
         // eslint-disable-next-line no-undef
-        navigate("/emloyee/detail/"+id)
+        navigate("/employee/detail/"+id)
     }
 
     const LoadEdit = (id) => {
+        navigate("/employee/edit/"+id)
 
     }
 
     const RemoveFunction = (id) => {
-
+if(window.confirm('Do you want to remove ?' )){
+    fetch("http://localhost:8000/employee/"+id, {
+        method: 'DELETE',
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(empdata)
+    })
+        .then((res) => {
+            alert('Removed successfully.')
+            window.location.reload()
+        }).catch((err) => {
+            console.log(err.message);
+        })
+}
     }
 
     useEffect(() => {
@@ -37,7 +50,7 @@ const EmpListing = () => {
                 </div>
                 <div className="card-body">
                     <div className="divbtn">
-                        <Link to="emloyee/create" className="btn btn-success">Add New (+)</Link>
+                        <Link to="employee/create" className="btn btn-success">Add New (+)</Link>
                     </div>
                     <table className="table table-bordered">
                         <thead className="bg-dark text-white">
