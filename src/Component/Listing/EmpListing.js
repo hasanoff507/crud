@@ -59,6 +59,7 @@ if(window.confirm('Do you want to remove ?' )){
                                 <td>Name</td>
                                 <td>Email</td>
                                 <td>Phone</td>
+                                <td>Image</td>
                                 <td>Action</td>
                             </tr>
                         </thead>
@@ -70,6 +71,9 @@ if(window.confirm('Do you want to remove ?' )){
                                         <td>{item.name}</td>
                                         <td>{item.email}</td>
                                         <td>{item.phone}</td>
+                                        <td>
+                                            <img style={{width:'275px', height:'180px'}} src={item.imageData} alt=""/>
+                                        </td>
                                         <td>
                                             <a onClick={() => { LoadEdit(item.id) }} className="btn btn-success">Edit</a>
                                             <a onClick={() => { RemoveFunction(item.id) }} className="btn btn-danger">Remove</a>

@@ -8,6 +8,7 @@ const EmpEdit = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
+    const [imageData, setImageData] = useState(null);
     const [active, setActive] = useState(true)
     const [validation, setValidation] = useState(false)
 
@@ -15,7 +16,7 @@ const EmpEdit = () => {
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
-        const empdata = { id, name, email, phone, active };
+        const empdata = { id, name, email, phone, active,imageData };
         fetch("http://localhost:8000/employee/"+empid, {
             method: 'PUT',
             headers: { "content-type": "application/json" },
@@ -40,10 +41,22 @@ const EmpEdit = () => {
                 setEmail(resp.email)
                 setPhone(resp.phone)
                 setActive(resp.isactive)
+                setImageData(resp.imageData)
             }).catch((err) => {
                 console.log(err.message);
             })
     }, [empid])
+
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setImageData(reader.result);
+        };
+      };
+
+
     return ( 
         <div>
         <div className="row">
@@ -80,6 +93,13 @@ const EmpEdit = () => {
                                         <input value={phone} onChange={e => setPhone(e.target.value)} className="form-control" />
                                     </div>
                                 </div>
+                                <div className="col-lg-12">
+                                        <div className="form-group">
+                                        <label>Image</label>
+                                            <input type="file" onChange={(event) => handleImageUpload(event)}  className="form-control" />
+                                            {imageData && <img style={{width:'275px', height:'180px'}} src={imageData} alt="" />}
+                                        </div>
+                                    </div>
                                 <div className="col-lg-12">
                                     <div className="form-check">
                                         <input checked={active} onChange={e => setActive(e.target.checked)} type="checkbox" className="form-check-input" />

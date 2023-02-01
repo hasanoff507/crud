@@ -6,6 +6,7 @@ const EmpCreate = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [phone, setPhone] = useState("")
+    const [imageData, setImageData] = useState(null);
     const [active, setActive] = useState(true)
     const [validation, setValidation] = useState(false)
 
@@ -13,7 +14,7 @@ const EmpCreate = () => {
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
-        const empdata = { id, name, email, phone, active };
+        const empdata = { id, name, email, phone, active,imageData };
         fetch("http://localhost:8000/employee", {
             method: 'POST',
             headers: { "content-type": "application/json" },
@@ -23,10 +24,20 @@ const EmpCreate = () => {
                 alert('Saved successfully.')
                 navigate('/')
             }).catch((err) => {
-                console.log(err.message);
+                console.log(err.empdata.message);
             })
-
     }
+
+
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setImageData(reader.result);
+        };
+      };
+
     return (
         <div>
             <div className="row">
@@ -64,11 +75,19 @@ const EmpCreate = () => {
                                         </div>
                                     </div>
                                     <div className="col-lg-12">
+                                        <div className="form-group">
+                                        <label>Image</label>
+                                            <input type="file" onChange={(event) => handleImageUpload(event)}  className="form-control" />
+                                            {imageData && <img style={{width:'275px', height:'180px'}} src={imageData} alt="" />}
+                                        </div>
+                                    </div>
+                                    <div className="col-lg-12">
                                         <div className="form-check">
                                             <input checked={active} onChange={e => setActive(e.target.checked)} type="checkbox" className="form-check-input" />
                                             <label className="form-check-label ">Is Active</label>
                                         </div>
                                     </div>
+
                                     <div className="col-lg-12">
                                         <div className="form-group">
                                             <button className="btn btn-success" type='submit'>Save</button>

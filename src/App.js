@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import EmpListing from './EmpListing';
+import EmpListing from './Component/Listing/EmpListing';
 import "./App.css"
-import EmpCreate from './EmpCreate';
-import EmpDetail from './EmpDetail';
-import EmpEdit from './EmpEdit';
+import EmpCreate from './Component/Create/EmpCreate';
+import EmpDetail from './Component/Detail/EmpDetail';
+import EmpEdit from './Component/Edit/EmpEdit';
 function App() {
   return (
     <div className='app'>
